@@ -6,4 +6,4 @@ require_once './Service/ExchangeRateService.php';
 
 $exchange_rate_service = new ExchangeRateService();
 
-$exchange_rate_service->getExchangeAmount(100, 'EUR', 'DKK');
+$exchange_rate_service->getSupportedCurrencies();

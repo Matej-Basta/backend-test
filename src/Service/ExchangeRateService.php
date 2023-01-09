@@ -7,17 +7,27 @@ namespace Opeepl\BackendTest\Service;
 class ExchangeRateService {
 
     /**
+     * @var array<string> 
+    */
+    private $currencies;
+
+
+    /**
      * Return all supported currencies
      *
      * @return array<string>
      */
     public function getSupportedCurrencies(): array {
 
+        if (isset($this->currencies)) {
+        } else {
+        }
+
         $data = $this->fetchData();
 
         $data_keys = [];
 
-        foreach($data['symbols'] as $key => $value) {
+        foreach($data["symbols"] as $key => $value) {
             array_push($data_keys, $key);
         }
 

@@ -19,19 +19,18 @@ class ExchangeRateService {
      */
     public function getSupportedCurrencies(): array {
 
-        if (isset($this->currencies)) {
-        } else {
-        }
+        /* Checking whether we have already fetched the currencies. If we have't, we fetch them and store them into
+        a class property, so we do not have to call the API again. If we have, we will simply return the property.*/
+        if (!isset($this->currencies)) {
 
-        $data = $this->fetchData();
+            $data = $this->fetchData();
+            $this->currencies = [];
+            foreach($data["symbols"] as $key => $value) {
+                array_push($this->currencies, $key);
+            }
+        } 
 
-        $data_keys = [];
-
-        foreach($data["symbols"] as $key => $value) {
-            array_push($data_keys, $key);
-        }
-
-        return $data_keys;
+        return $this->currencies;
 
     }
 

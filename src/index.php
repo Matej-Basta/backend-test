@@ -6,4 +6,8 @@ require_once './Service/ExchangeRateService.php';
 
 $exchange_rate_service = new ExchangeRateService();
 
-$exchange_rate_service->getSupportedCurrencies();
+echo $exchange_rate_service->getSupportedCurrencies();
+
+echo "ahoj";
+
+echo $exchange_rate_service->getSupportedCurrencies();

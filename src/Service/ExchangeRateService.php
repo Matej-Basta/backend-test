@@ -11,6 +11,11 @@ class ExchangeRateService {
     */
     private $currencies;
 
+    /**
+     * @var array<string> 
+    */
+    private $last_conversion_values;
+
 
     /**
      * Return all supported currencies
@@ -53,8 +58,6 @@ class ExchangeRateService {
         $data = $this->fetchData($arguments);
 
         $result = round($data['result']);
-
-        echo $result;
 
         return $result;
 

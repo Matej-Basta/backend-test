@@ -16,6 +16,11 @@ class ExchangeRateService {
     */
     private $last_conversion_values;
 
+    /**
+     * @var int 
+    */
+    private $result;
+
 
     /**
      * Return all supported currencies
@@ -25,7 +30,8 @@ class ExchangeRateService {
     public function getSupportedCurrencies(): array {
 
         /* Checking whether we have already fetched the currencies. If we have't, we fetch them and store them into
-        a class property, so we do not have to call the API again. If we have, we will simply return the property.*/
+        a class property, so we do not have to call the API again. If we have, we will simply return the property.
+        */
         if (!isset($this->currencies)) {
 
             $data = $this->fetchData();
@@ -54,12 +60,21 @@ class ExchangeRateService {
             "from" => $fromCurrency,
             "to" => $toCurrency,
         ];
+
         
-        $data = $this->fetchData($arguments);
+        /* 
+        Prevention for calling the API multiple times if there is an error in a code (for example calling
+        the API several times with same values, e.g. because of a wrong implementation of a loop.)
+        Checking, whether the parameters are different from the last call, if yes, we fetch new data. If no,
+        we return the previous result.
+        */
+        if ($arguments != $this->last_conversion_values) {
+            $this->last_conversion_values = $arguments;
+            $data = $this->fetchData($arguments);
+            $this->result = round($data['result']);
+        }
 
-        $result = round($data['result']);
-
-        return $result;
+        return $this->result;
 
     }
 

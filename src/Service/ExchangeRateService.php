@@ -65,8 +65,8 @@ class ExchangeRateService {
         
         $arguments = [
             "amount" => $amount,
-            "from" => $fromCurrency,
-            "to" => $toCurrency,
+            "from" => strtolower($fromCurrency),
+            "to" => strtolower($toCurrency),
         ];
         
         /* 

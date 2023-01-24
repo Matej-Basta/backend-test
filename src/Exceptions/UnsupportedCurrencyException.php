@@ -7,9 +7,8 @@ use Exception;
 class UnsupportedCurrencyException extends Exception {
 
     
-    public function __construct($currency) {
+    public function __construct($message) {
 
-        $message = "The currency $currency is not supported.";
         parent::__construct($message);
 
     }

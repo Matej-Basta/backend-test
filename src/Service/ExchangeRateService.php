@@ -2,6 +2,7 @@
 namespace Opeepl\BackendTest\Service;
 
 use Opeepl\BackendTest\Exceptions\NegativeAmountException;
+use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 
 /**
  * Main entrypoint for this library.
@@ -90,6 +91,12 @@ class ExchangeRateService {
 
                 $this->last_conversion_values = $arguments;
                 $data = DataFetcher::fetchData($arguments);
+                var_dump($data);
+
+                if (isset($data["error"])) {
+                    throw new UnsupportedCurrencyException($data["error"]["message"]);
+                }
+
                 $this->result = round($data['result']);
 
             }

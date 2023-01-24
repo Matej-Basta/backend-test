@@ -2,29 +2,17 @@
 
 namespace Opeepl\BackendTest\Service;
 
-class DataFetcher
-{
+class DataFetcher {
 
-    public static function fetchData(array $parameters = []): array {
-        $curl = curl_init();
-
-        $url = "";
-
-        if (empty($parameters)) {
-
-            $url = "https://api.apilayer.com/exchangerates_data/symbols";
-
-        } else {
-
-            $url = "https://api.apilayer.com/exchangerates_data/convert?to={$parameters["to"]}&from={$parameters["from"]}&amount={$parameters["amount"]}";
+    public static function fetchData(string $url, string $key): array {
         
-        }
+        $curl = curl_init();
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: text/plain",
-                "apikey: kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"
+                "apikey: " . $key,
             ),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",

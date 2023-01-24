@@ -3,6 +3,7 @@ namespace Opeepl\BackendTest\Service;
 
 use Opeepl\BackendTest\Exceptions\NegativeAmountException;
 use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
+use Opeepl\BackendTest\Exchanges\Exchange;
 
 /**
  * Main entrypoint for this library.
@@ -10,7 +11,7 @@ use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 class ExchangeRateService {
 
     /**
-     * @var array<Exchange> 
+     * @var array<Exchange>
     */
     private $exchanges;
 
@@ -29,6 +30,47 @@ class ExchangeRateService {
     */
     private $result;
 
+    public function __construct() {
+
+        $this->currencies = [];
+        
+        $this->exchanges = array(new Exchange("https://api.apilayer.com/exchangerates_data/symbols", "https://api.apilayer.com/exchangerates_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
+        
+        // here, we can easily switch to a different default exchange API, the commented line below is an example
+
+        // $this->exchanges = array(new Exchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
+
+    }
+
+    /**
+     * Changing to another exchange rate API
+     *
+     * @param string $url_currencies
+     * @param string $url_converter
+     * @param string $key
+     */
+    public function setExchange(string $url_currencies, string $url_converter, string $key) {
+        
+        $this->exchanges = array();
+        $this->currencies = array();
+        array_push($this->exchanges, new Exchange($url_currencies, $url_converter, $key));
+
+    }
+
+    /**
+     * Adding another exchange rate API
+     *
+     * @param string $url_currencies
+     * @param string $url_converter
+     * @param string $key
+     */
+    public function addExchange(string $url_currencies, string $url_converter, string $key) {
+        
+        $this->currencies = [];
+        array_push($this->exchanges, new Exchange($url_currencies, $url_converter, $key));
+
+    }
+
 
     /**
      * Return all supported currencies
@@ -40,13 +82,15 @@ class ExchangeRateService {
         /* Checking whether we have already fetched the currencies. If we have't, we fetch them and store them into
         a class property, so we do not have to call the API again. If we have, we will simply return the property.
         */
-        if (!isset($this->currencies)) {
+        if (empty($this->currencies)) {
 
-            $data = DataFetcher::fetchData();
-            $this->currencies = [];
-            foreach($data["symbols"] as $key => $value) {
+            foreach ($this->exchanges as $exchange) {
 
-                array_push($this->currencies, $key);
+                $symbols = $exchange->getCurrencies();
+
+                foreach ($symbols as $symbol) {
+                    array_push($this->currencies, $symbol);
+                }
 
             }
 

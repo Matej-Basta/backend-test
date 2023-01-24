@@ -35,3 +35,8 @@ To run the tests call `composer test`
 ## Limitations
 
 You are allowed to make use of any libraries you want, but no libraries directly related to exchange rates.
+
+
+Notes:
+- new api must return the currencies with a key "symbols" or "currencies"
+- next thing would be to include only the non-repeating currencies

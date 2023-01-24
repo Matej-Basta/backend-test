@@ -34,11 +34,11 @@ class ExchangeRateService {
 
         $this->currencies = [];
         
-        $this->exchanges = array(new Exchange("https://api.apilayer.com/exchangerates_data/symbols", "https://api.apilayer.com/exchangerates_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
+        // $this->exchanges = array(new Exchange("https://api.apilayer.com/exchangerates_data/symbols", "https://api.apilayer.com/exchangerates_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
         
         // here, we can easily switch to a different default exchange API, the commented line below is an example
 
-        // $this->exchanges = array(new Exchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
+        $this->exchanges = array(new Exchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
 
     }
 
@@ -89,7 +89,12 @@ class ExchangeRateService {
                 $symbols = $exchange->getCurrencies();
 
                 foreach ($symbols as $symbol) {
-                    array_push($this->currencies, $symbol);
+
+                    // inluding the symbol, only if it is not already included from different API
+                    if (!in_array($symbol, $this->currencies)) {
+                        array_push($this->currencies, $symbol);
+                    }
+
                 }
 
             }
@@ -143,13 +148,8 @@ class ExchangeRateService {
             } else {
 
                 $this->last_conversion_values = $arguments;
-                $data = DataFetcher::fetchData($arguments);
 
-                if (isset($data["error"])) {
-                    throw new UnsupportedCurrencyException($data["error"]["message"]);
-                }
-
-                $this->result = round($data['result']);
+                $this->result = $this->exchanges[0]->getAmount($amount, $fromCurrency, $toCurrency);
 
             }
 
@@ -184,7 +184,7 @@ class ExchangeRateService {
      */
     private function validateCurrency(string $currency) {
 
-        if (isset($this->currencies)) {
+        if (!empty($this->currencies)) {
 
             if (!in_array(strtoupper($currency), $this->currencies)) {
                 throw new UnsupportedCurrencyException("$currency is not a supported currency.");

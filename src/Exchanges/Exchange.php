@@ -2,6 +2,7 @@
 namespace Opeepl\BackendTest\Exchanges;
 
 use Opeepl\BackendTest\Service\DataFetcher;
+use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 
 class Exchange {
     
@@ -33,7 +34,8 @@ class Exchange {
     public function getCurrencies() : array {
 
         $data = DataFetcher::fetchData($this->url_currencies, $this->key);
-        
+
+        // will work only with APIs, that return the symbols with a key "symbols" or "currencies"
         if (isset($data["symbols"])) {
 
             return array_keys($data["symbols"]);
@@ -52,15 +54,27 @@ class Exchange {
      * @param string $toCurrency
      * @return int
      */
-    public function getConvertedAmount(int $amount, string $fromCurrency, string $toCurrency) : int {
+    public function getAmount(int $amount, string $fromCurrency, string $toCurrency) : int {
         
         
         // creating the url with correct parameters
         $search = array("placeholderTo", "placeholderFrom", "placeholderAmount");
-        $replace = array($toCurrency, $toCurrency, $amount);
-        $url_converter = str_replace($search, $replace, $url_converter);
+        $replace = array($toCurrency, $fromCurrency, $amount);
+        $this->url_converter = str_replace($search, $replace, $this->url_converter);
 
-        $result = DataFetcher::getchData($this->url_converter, $this->key);
+        $data = DataFetcher::fetchData($this->url_converter, $this->key);
+
+        if (isset($data["error"])) {
+
+            if (isset($data["error"]["message"])) {
+                throw new UnsupportedCurrencyException($data["error"]["message"]);
+            } elseif (isset($data["error"]["info"])) {
+                throw new UnsupportedCurrencyException($data["error"]["info"]);
+            }
+        }
+
+        $result = round($data['result']);
+        
         return $result;
 
     }

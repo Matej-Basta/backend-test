@@ -101,7 +101,12 @@ class ExchangeRateService {
     }
 
 
-    // function validating amount
+    /**
+     * Validating the amount
+     * 
+     * @param int $amount
+     * @throws NegativeAmountException
+     */
     private function validateAmount(int $amount) {
         
         if (is_nan($amount) || $amount < 0) {

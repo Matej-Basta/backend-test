@@ -10,4 +10,4 @@ use Opeepl\BackendTest\Service\ExchangeRateService;
 
 $exchange_rate_service = new ExchangeRateService();
 
-echo $exchange_rate_service->getExchangeAmount(89, 'eur', 'EUR');
+echo $exchange_rate_service->getExchangeAmount(89, 'rara', 'EUR');

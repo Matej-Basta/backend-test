@@ -82,6 +82,10 @@ class ExchangeRateService {
 
                 $this->result = 0;
 
+            } elseif ($arguments['from'] === $arguments['to']) { // if the FROM and TO currencies are identical, we don't call the API
+            
+                $this->result = $arguments['amount'];
+
             } else {
 
                 $this->last_conversion_values = $arguments;

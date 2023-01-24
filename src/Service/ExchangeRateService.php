@@ -36,7 +36,7 @@ class ExchangeRateService {
         */
         if (!isset($this->currencies)) {
 
-            $data = $this->fetchData();
+            $data = DataFetcher::fetchData();
             $this->currencies = [];
             foreach($data["symbols"] as $key => $value) {
 
@@ -100,6 +100,8 @@ class ExchangeRateService {
 
     }
 
+
+    // function validating amount
     private function validateAmount(int $amount) {
         
         if (is_nan($amount) || $amount < 0) {

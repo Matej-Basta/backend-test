@@ -41,7 +41,7 @@ class ExchangeRateService {
             $this->currencies = [];
             foreach($data["symbols"] as $key => $value) {
 
-                array_push($this->currencies, strtolower($key));
+                array_push($this->currencies, $key);
 
             }
 
@@ -137,7 +137,7 @@ class ExchangeRateService {
 
         if (isset($this->currencies)) {
 
-            if (!in_array(strtolower($currency), $this->currencies)) {
+            if (!in_array(strtoupper($currency), $this->currencies)) {
                 throw new UnsupportedCurrencyException("$currency is not a supported currency.");
             }
 

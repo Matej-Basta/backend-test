@@ -1,6 +1,8 @@
 <?php
 namespace Opeepl\BackendTest\Service;
 
+use Opeepl\BackendTest\Exceptions\NegativeAmountException;
+
 /**
  * Main entrypoint for this library.
  */
@@ -37,8 +39,11 @@ class ExchangeRateService {
             $data = $this->fetchData();
             $this->currencies = [];
             foreach($data["symbols"] as $key => $value) {
+
                 array_push($this->currencies, $key);
+
             }
+
         } 
 
         return $this->currencies;
@@ -55,12 +60,14 @@ class ExchangeRateService {
      */
     public function getExchangeAmount(int $amount, string $fromCurrency, string $toCurrency): int {
 
+        // checking, whether the amount is valid
+        $this->validateAmount($amount);
+        
         $arguments = [
             "amount" => $amount,
             "from" => $fromCurrency,
             "to" => $toCurrency,
         ];
-
         
         /* 
         Prevention for calling the API multiple times if there is an error in a code (for example calling
@@ -69,47 +76,34 @@ class ExchangeRateService {
         we return the previous result.
         */
         if ($arguments != $this->last_conversion_values) {
-            $this->last_conversion_values = $arguments;
-            $data = $this->fetchData($arguments);
-            $this->result = round($data['result']);
+
+            // if the amount is 0, we do not call the API
+            if ($arguments['amount'] === 0) {
+
+                $this->result = 0;
+
+            } else {
+
+                $this->last_conversion_values = $arguments;
+                $data = DataFetcher::fetchData($arguments);
+                $this->result = round($data['result']);
+
+            }
+
         }
 
         return $this->result;
 
     }
 
-    private function fetchData(array $parameters = []): array {
-        $curl = curl_init();
+    private function validateAmount(int $amount) {
+        
+        if (is_nan($amount) || $amount < 0) {
 
-        $url = "";
+            throw new NegativeAmountException();
 
-        if (empty($parameters)) {
-            $url = "https://api.apilayer.com/exchangerates_data/symbols";
-        } else {
-            $url = "https://api.apilayer.com/exchangerates_data/convert?to={$parameters["to"]}&from={$parameters["from"]}&amount={$parameters["amount"]}";
         }
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: text/plain",
-                "apikey: kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"
-            ),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET"
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $data = json_decode($response, true);
-
-        return $data;
     }
+
 }

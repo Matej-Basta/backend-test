@@ -34,11 +34,11 @@ class ExchangeRateService {
 
         $this->currencies = [];
         
-        // $this->exchanges = array(new Exchange("https://api.apilayer.com/exchangerates_data/symbols", "https://api.apilayer.com/exchangerates_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
+        $this->exchanges = array(new Exchange("https://api.apilayer.com/exchangerates_data/symbols", "https://api.apilayer.com/exchangerates_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
         
         // here, we can easily switch to a different default exchange API, the commented line below is an example
 
-        $this->exchanges = array(new Exchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
+        // $this->exchanges = array(new Exchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
 
     }
 

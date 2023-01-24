@@ -11,4 +11,5 @@ use Opeepl\BackendTest\Service\ExchangeRateService;
 
 $exchange_rate_service = new ExchangeRateService();
 
-echo $exchange_rate_service->getExchangeAmount(89, 'dkk', 'rara');
+$exchange_rate_service->getSupportedCurrencies();
+echo $exchange_rate_service->getExchangeAmount(89, 'EUR', 'haha');

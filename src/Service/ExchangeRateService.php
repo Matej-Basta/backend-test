@@ -41,7 +41,7 @@ class ExchangeRateService {
             $this->currencies = [];
             foreach($data["symbols"] as $key => $value) {
 
-                array_push($this->currencies, $key);
+                array_push($this->currencies, strtolower($key));
 
             }
 
@@ -63,6 +63,10 @@ class ExchangeRateService {
 
         // checking, whether the amount is valid
         $this->validateAmount($amount);
+
+        // checking, whether the currencies are supported, but only if the currencies class property is set
+        $this->validateCurrency($fromCurrency);
+        $this->validateCurrency($toCurrency);
         
         $arguments = [
             "amount" => $amount,
@@ -91,7 +95,6 @@ class ExchangeRateService {
 
                 $this->last_conversion_values = $arguments;
                 $data = DataFetcher::fetchData($arguments);
-                var_dump($data);
 
                 if (isset($data["error"])) {
                     throw new UnsupportedCurrencyException($data["error"]["message"]);
@@ -119,6 +122,24 @@ class ExchangeRateService {
         if (is_nan($amount) || $amount < 0) {
 
             throw new NegativeAmountException();
+
+        }
+
+    }
+
+    /**
+     * Validating the currency
+     * 
+     * @param string $currency
+     * @throws UnsupportedCurrencyException
+     */
+    private function validateCurrency(string $currency) {
+
+        if (isset($this->currencies)) {
+
+            if (!in_array(strtolower($currency), $this->currencies)) {
+                throw new UnsupportedCurrencyException("$currency is not a supported currency.");
+            }
 
         }
 

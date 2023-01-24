@@ -10,6 +10,11 @@ use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 class ExchangeRateService {
 
     /**
+     * @var array<Exchange> 
+    */
+    private $exchanges;
+
+    /**
      * @var array<string> 
     */
     private $currencies;

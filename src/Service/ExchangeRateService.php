@@ -4,6 +4,7 @@ namespace Opeepl\BackendTest\Service;
 use Opeepl\BackendTest\Exceptions\NegativeAmountException;
 use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 use Opeepl\BackendTest\Exchanges\Exchange;
+use Exception;
 
 /**
  * Main entrypoint for this library.
@@ -149,8 +150,21 @@ class ExchangeRateService {
 
                 $this->last_conversion_values = $arguments;
 
-                $this->result = $this->exchanges[0]->getAmount($amount, $fromCurrency, $toCurrency);
+                // trying to find the conversion rate in all supported APIs, one by one
+                foreach ($this->exchanges as $exchange) {
+                    try {
+                        $this->result = $exchange->getAmount($amount, $fromCurrency, $toCurrency);
+                        break;
+                    } catch (Exception $e) {
+                        continue;
+                    }
+                }
 
+                if (is_null($this->result)) {
+                    throw new UnsupportedCurrencyException("The conversion between these two currencies is not supported.");
+                }
+
+                
             }
 
         }

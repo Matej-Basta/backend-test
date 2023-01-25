@@ -41,3 +41,4 @@ Notes:
 - new api must return the currencies with a key "symbols" or "currencies"
 - new api must return the error message in a key "message" or "info"
 - next thing would be to include only the non-repeating currencies
+- all new urls have to have placeholders

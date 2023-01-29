@@ -21,7 +21,7 @@ Firstly, not all test branches are covered, because of the fact, that I was usin
 Secondly, considering the limitations of calling to the APIs, it is probably not optimal, that every test is calling
 to the API to get the data. However, I have used this approach to make sure, that there should be no mistake.
 
-Time to complete - 2 hours and 45 minutes.
+Time of work - 2 hours and 45 minutes.
 
 
 

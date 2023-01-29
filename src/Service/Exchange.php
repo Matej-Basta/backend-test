@@ -61,6 +61,7 @@ class Exchange {
 
         $data = DataFetcher::fetchData($this->url_converter, $this->key);
 
+        // Throwing an error, if one of the currencies is not supported. Will work only with APIs, that return the error with a key "message" or "info".
         if (isset($data["error"])) {
 
             if (isset($data["error"]["message"])) {
@@ -76,6 +77,14 @@ class Exchange {
 
     }
 
+    /**
+     * Function that replaces placeholders with actual values.
+     * 
+     * @param int $amount
+     * @param string $fromCurrency
+     * @param string $toCurrency
+     * @return string
+     */
     private function createCorrectURL(int $amount, string $fromCurrency, string $toCurrency) {
         $search = array("placeholderTo", "placeholderFrom", "placeholderAmount");
         $replace = array($toCurrency, $fromCurrency, $amount);

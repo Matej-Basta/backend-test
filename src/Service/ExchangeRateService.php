@@ -36,14 +36,15 @@ class ExchangeRateService {
         
         $this->exchanges = array(new Exchange("https://api.apilayer.com/exchangerates_data/symbols", "https://api.apilayer.com/exchangerates_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
         
-        // here, we can easily switch to a different default exchange API, the commented line below is an example
+        /* Here, we can easily switch to a different default exchange API, the commented line below is an example.
+        We can simply comment out the above command and remove the command from the one below. This is just illustration. */
 
         // $this->exchanges = array(new Exchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM"));
 
     }
 
     /**
-     * Changing to another exchange rate API
+     * Changing to another exchange rate API.
      *
      * @param string $url_currencies
      * @param string $url_converter
@@ -95,6 +96,7 @@ class ExchangeRateService {
         */
         if (empty($this->currencies)) {
 
+            // going through all the exchange APIs that we use
             foreach ($this->exchanges as $exchange) {
 
                 $symbols = $exchange->getCurrencies();
@@ -170,6 +172,7 @@ class ExchangeRateService {
                     }
                 }
 
+                // if the conversion rate was not found, we throw an error
                 if (is_null($this->result)) {
                     throw new UnsupportedCurrencyException("The conversion between these two currencies is not supported.");
                 }
@@ -201,7 +204,7 @@ class ExchangeRateService {
     }
 
     /**
-     * Validating the currency
+     * Validating the currency (only if we have the "currencies" attribute filled)
      * 
      * @param string $currency
      * @throws UnsupportedCurrencyException

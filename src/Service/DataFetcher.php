@@ -31,6 +31,7 @@ class DataFetcher {
 
         $data = json_decode($response, true);
 
+        // Throwing an error, if the API does not return a valid response
         if (!isset($data['success'])) {
             throw new ApiException("The API is not responding. It might be caused by an error on the API provider's side, or you might have entered a wrong URL or API key.");
         }

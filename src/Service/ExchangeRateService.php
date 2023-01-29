@@ -3,7 +3,6 @@ namespace Opeepl\BackendTest\Service;
 
 use Opeepl\BackendTest\Exceptions\NegativeAmountException;
 use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
-use Opeepl\BackendTest\Exchanges\Exchange;
 use Exception;
 
 /**

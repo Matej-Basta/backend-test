@@ -2,6 +2,8 @@
 
 namespace Opeepl\BackendTest\Service;
 
+use Opeepl\BackendTest\Exceptions\ApiException;
+
 class DataFetcher {
 
     public static function fetchData(string $url, string $key): array {
@@ -29,9 +31,14 @@ class DataFetcher {
 
         $data = json_decode($response, true);
 
-        var_dump($data);
+        
+
+        // if (!isset($data['success'])) {
+        //     throw new ApiException("The API is not responding. It might be caused by an error on the API provider's side, or you might have entered a wrong URL or API key.");
+        // }
 
         return $data;
+
     }
 
 }

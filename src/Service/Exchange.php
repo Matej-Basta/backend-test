@@ -1,7 +1,6 @@
 <?php
 namespace Opeepl\BackendTest\Service;
 
-use Opeepl\BackendTest\Service\DataFetcher;
 use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 
 class Exchange {

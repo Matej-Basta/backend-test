@@ -55,7 +55,7 @@ class ExchangeRateService {
         $this->currencies = array();
         array_push($this->exchanges, new Exchange($url_currencies, $url_converter, $key));
 
-    }
+    }    
 
     /**
      * Adding another exchange rate API
@@ -68,6 +68,17 @@ class ExchangeRateService {
         
         $this->currencies = [];
         array_push($this->exchanges, new Exchange($url_currencies, $url_converter, $key));
+
+    }
+
+    /**
+     * getting the available exchange rate APIs
+     *
+     * @return array<Exchange>
+     */
+    public function getExchanges() {
+        
+        return $this->exchanges;
 
     }
 

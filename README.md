@@ -43,3 +43,4 @@ Notes:
 - next thing would be to include only the non-repeating currencies
 - all new urls have to have placeholders
 - tests use API calls
+- not all branches tested, because of two same APIs

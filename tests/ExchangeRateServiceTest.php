@@ -2,6 +2,8 @@
 namespace Opeepl\BackendTest\Service;
 
 use PHPUnit\Framework\TestCase;
+use Opeepl\BackendTest\Exceptions\NegativeAmountException;
+use Opeepl\BackendTest\Exceptions\UnsupportedCurrencyException;
 
 class ExchangeRateServiceTest extends TestCase {
 
@@ -9,6 +11,26 @@ class ExchangeRateServiceTest extends TestCase {
 
     public function setUp(): void {
         $this->exchangeRateService = new ExchangeRateService();
+    }
+
+    /**
+     * @test
+     */
+    public function setExchangeTest() {
+        $this->exchangeRateService->setExchangeTest("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
+        
+        $this->assertClassHasAttribute('exchanges', $this->exchangeRateService, "Expected that it still has an attribute exchanges.");
+        $this->assertCount(1, $this->exchangeRateService->getExchanges(), "Expected that the number of exchanges is 1.");
+    }
+
+    /**
+     * @test
+     */
+    public function addExchangeTest() {
+        $this->exchangeRateService->addExchangeTest("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
+        
+        $this->assertClassHasAttribute('exchanges', $this->exchangeRateService, "Expected that it still has an attribute exchanges.");
+        $this->assertCount(2, $this->exchangeRateService->getExchanges(), "Expected that the number of exchanges is 2.");
     }
 
     /**
@@ -46,9 +68,49 @@ class ExchangeRateServiceTest extends TestCase {
     /**
      * @test
      */
-    public function getExchangeAmountUSDToUSDTest() {
+    public function getExchangeAmountSameCurrenciesest() {
         $amount = $this->exchangeRateService->getExchangeAmount(200, 'USD', 'USD');
 
         $this->assertEquals(200, $amount);
     }
+
+    /**
+     * @test
+     */
+    public function getExchangeAmountNegativeAmountTest() : void {
+        $this->expectException(NegativeAmountException::class);
+
+        $this->exchangeRateService->getExchangeAmount(-200, 'EUR', 'DKK');
+    }
+
+    /**
+     * @test
+     */
+    public function getExchangeAmountUnsupportedFromCurrencyWithCurrenciesFieldSetTest() : void {
+        $this->exchangeRateService->getSupportedCurrencies();
+        $this->expectException(UnsupportedCurrencyException::class);
+
+        $this->exchangeRateService->getExchangeAmount(-200, 'ERROR', 'DKK');
+    }
+
+    /**
+     * @test
+     */
+    public function getExchangeAmountUnsupportedToCurrencyWithCurrenciesFieldSetTest() : void {
+        $this->exchangeRateService->getSupportedCurrencies();
+        $this->expectException(UnsupportedCurrencyException::class);
+
+        $this->exchangeRateService->getExchangeAmount(-200, 'EUR', 'ERROR');
+    }
+
+     /**
+     * @test
+     */
+    public function getExchangeAmountZeroAmountTest() : void {
+        $amount = $this->exchangeRateService->getExchangeAmount(0, 'USD', 'USD');
+
+        $this->assertEquals(0, $amount);
+    }
+
+    
 }

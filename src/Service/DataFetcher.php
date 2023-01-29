@@ -29,6 +29,8 @@ class DataFetcher {
 
         $data = json_decode($response, true);
 
+        var_dump($data);
+
         return $data;
     }
 

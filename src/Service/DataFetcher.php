@@ -31,11 +31,9 @@ class DataFetcher {
 
         $data = json_decode($response, true);
 
-        
-
-        // if (!isset($data['success'])) {
-        //     throw new ApiException("The API is not responding. It might be caused by an error on the API provider's side, or you might have entered a wrong URL or API key.");
-        // }
+        if (!isset($data['success'])) {
+            throw new ApiException("The API is not responding. It might be caused by an error on the API provider's side, or you might have entered a wrong URL or API key.");
+        }
 
         return $data;
 

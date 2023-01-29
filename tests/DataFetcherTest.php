@@ -2,34 +2,36 @@
 namespace Opeepl\BackendTest\Service;
 
 use PHPUnit\Framework\TestCase;
+use Opeepl\BackendTest\Exceptions\ApiException;
+
 
 class DataFetcherTest extends TestCase {
 
-    /* *
-     * @test
+    /**
+     * @test -functioning
      */
     /* public function fetchDataValidInputTest() {
-        $data = DataFetcher::fetchData("https://api.apilayer.com/currency_data/list", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
+        $data = DataFetcher::fetchData("https://api.apilayer.com/exchangerates_data/symbols", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
 
         $this->assertEquals(true, $data['success'], 'The "success" key should have a value "true".');
     } */
 
     /**
-     * @test
+     * @test -functioning
      */
     /* public function fetchDataInvalidUrlTest() {
-        $data = DataFetcher::fetchData("https://api.apilayereer.com/currency_data/list", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
-
-        $this->assertArrayNotHasKey($data['success'], 'There should be no "success" key.');
+        $this->expectException(ApiException::class);
+        
+        $data = DataFetcher::fetchData("heyheyhttps://api.apilayer.com/exchangerates_data/symbols", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");       
     } */
 
     /**
      * @test
      */
-    /* public function fetchDataInvalidKeyTest() {
-        $data = DataFetcher::fetchData("https://api.apilayereer.com/currency_data/list", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
-
-        $this->assertArrayNotHasKey($data['success'], 'There should be no "success" key.');
-    } */
+    public function fetchDataInvalidKeyTest() {
+        $this->expectException(ApiException::class);
+        
+        $data = DataFetcher::fetchData("https://api.apilayer.com/exchangerates_data/symbols", "heyheykigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
+    }
 
 }

@@ -69,6 +69,7 @@ class ExchangeRateServiceTest extends TestCase {
     /* public function getExchangeAmountSameCurrenciesest() {
         $amount = $this->exchangeRateService->getExchangeAmount(200, 'USD', 'USD');
 
+        // We expect to get the same number.
         $this->assertEquals(200, $amount);
     } */
 
@@ -107,6 +108,7 @@ class ExchangeRateServiceTest extends TestCase {
     /* public function getExchangeAmountZeroAmountTest() : void {
         $amount = $this->exchangeRateService->getExchangeAmount(0, 'USD', 'USD');
 
+        // We expect to get 0.
         $this->assertEquals(0, $amount);
     } */
 

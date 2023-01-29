@@ -1,0 +1,27 @@
+This exchange library is slightly limited.
+
+Firsty, even though we are able to support multiple APIs
+at the same time, it is currently not possible to convert between currencies defined in separate exchange rate APIs.
+I didn't dedicate much time into finding different APIs. I have used 1 additional one, but it was from the same provider
+and the returned currencies were same as from the API you recommended. I implemented the second API, to illustrate
+how the library could work with additional ones. However, this additional API did not allow me to try the conversion
+between currencies from different sources, because they shared identical currencies. In order to accomplish the conversion
+between multiple sources, we would need to find one currencly (e.g. USD) that would be included in both APIs and
+use it as a bridging converter. (Example - 'From'=DKK 'To'=BTC -> Firstly converting DKK to USD and then using the 
+amount of USD to convert it into BTC.)
+
+Additional limitation is, that the current version of the library will support unlimited number of APIs
+but with a condition, that the APIs must return the symbols under the keys "symbols" or "currencies" and
+error messages under the keys "info" or "message". Moreover, new APIs must be provided with URLs, where all
+the parameters (amount, from currency, to currency) must be replaced with specific placehodlers (placeholderAmount, placeholderFrom, placeholderTo),
+because there is a function, that will replace the placeholders with the parameters, but only if they are written in this way.
+
+Lastly, there are two considerations to tests.
+Firstly, not all test branches are covered, because of the fact, that I was using two very similar APIs.
+Secondly, considering the limitations of calling to the APIs, it is probably not optimal, that every test is calling
+to the API to get the data. However, I have used this approach to make sure, that there should be no mistake.
+
+Time to complete - 2 hours and 45 minutes.
+
+
+

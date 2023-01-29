@@ -58,9 +58,7 @@ class Exchange {
         
         
         // creating the url with correct parameters
-        $search = array("placeholderTo", "placeholderFrom", "placeholderAmount");
-        $replace = array($toCurrency, $fromCurrency, $amount);
-        $this->url_converter = str_replace($search, $replace, $this->url_converter);
+        $this->url_converter = $this->createCorrectURL($amount, $fromCurrency, $toCurrency);
 
         $data = DataFetcher::fetchData($this->url_converter, $this->key);
 
@@ -77,6 +75,12 @@ class Exchange {
         
         return $result;
 
+    }
+
+    private function createCorrectURL(int $amount, string $fromCurrency, string $toCurrency) {
+        $search = array("placeholderTo", "placeholderFrom", "placeholderAmount");
+        $replace = array($toCurrency, $fromCurrency, $amount);
+        return str_replace($search, $replace, $this->url_converter);
     }
 
 }

@@ -14,7 +14,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function setExchangeTest() {
         $this->exchangeRateService->setExchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
@@ -23,7 +23,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function addExchangeTest() {
         $this->exchangeRateService->addExchange("https://api.apilayer.com/currency_data/list", "https://api.apilayer.com/currency_data/convert?to=placeholderTo&from=placeholderFrom&amount=placeholderAmount", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
@@ -32,7 +32,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getSupportedCurrenciesTest() {
         $currencies = $this->exchangeRateService->getSupportedCurrencies();
@@ -44,7 +44,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountEURToDKKTest() {
         $amount = $this->exchangeRateService->getExchangeAmount(100, 'EUR', 'DKK');
@@ -54,7 +54,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountUSDToCADTest() {
         $amount = $this->exchangeRateService->getExchangeAmount(200, 'USD', 'CAD');
@@ -64,7 +64,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountSameCurrenciesest() {
         $amount = $this->exchangeRateService->getExchangeAmount(200, 'USD', 'USD');
@@ -74,7 +74,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountNegativeAmountTest() : void {
         $this->expectException(NegativeAmountException::class);
@@ -83,7 +83,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountUnsupportedFromCurrencyWithCurrenciesFieldSetTest() : void {
         $this->exchangeRateService->getSupportedCurrencies();
@@ -93,7 +93,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountUnsupportedToCurrencyWithCurrenciesFieldSetTest() : void {
         $this->exchangeRateService->getSupportedCurrencies();
@@ -103,7 +103,7 @@ class ExchangeRateServiceTest extends TestCase {
     }
 
      /**
-     * @test -functioning
+     * @test
      */
     public function getExchangeAmountZeroAmountTest() : void {
         $amount = $this->exchangeRateService->getExchangeAmount(0, 'USD', 'USD');

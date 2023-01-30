@@ -8,7 +8,7 @@ use Opeepl\BackendTest\Exceptions\ApiException;
 class DataFetcherTest extends TestCase {
 
     /**
-     * @test -functioning
+     * @test
      */
     public function fetchDataValidInputTest() {
         $data = DataFetcher::fetchData("https://api.apilayer.com/exchangerates_data/symbols", "kigiQGomtNhg3zsoWOb6LYcKRuhQp2fM");
@@ -17,7 +17,7 @@ class DataFetcherTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function fetchDataInvalidUrlTest() {
         $this->expectException(ApiException::class);

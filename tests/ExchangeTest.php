@@ -14,7 +14,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getCurrenciesWithSymbolsKeyTest() {
         $currencies = $this->exchangeSymbols->getCurrencies();
@@ -25,7 +25,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -notFunctioning (limit reached)
+     * @test
      */
     public function getCurrenciesWithCurrenciesKeyTest() {
         $currencies = $this->exchangeCurrencies->getCurrencies();
@@ -36,7 +36,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getAmountValidInputTest() {
         $amount = $this->exchangeSymbols->getAmount(100, 'EUR', 'DKK');
@@ -45,7 +45,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -notFunctioning (limit reached)
+     * @test
      */
     public function getAmountInvalidFromCurrencyWithMessageKeyTest() {
         $this->expectException(UnsupportedCurrencyException::class);
@@ -54,7 +54,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -notFunctioning (limit reached)
+     * @test
      */
     public function getAmountInvalidToCurrencyWithMessageKeyTest() {
         $this->expectException(UnsupportedCurrencyException::class);
@@ -63,7 +63,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getAmountInvalidFromCurrencyWithInfoKeyTest() {
         $this->expectException(UnsupportedCurrencyException::class);
@@ -72,7 +72,7 @@ class ExchangeTest extends TestCase {
     }
 
     /**
-     * @test -functioning
+     * @test
      */
     public function getAmountInvalidToCurrencyWithInfoKeyTest() {
         $this->expectException(UnsupportedCurrencyException::class);

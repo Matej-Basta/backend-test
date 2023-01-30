@@ -31,8 +31,17 @@ class DataFetcher {
 
         $data = json_decode($response, true);
 
+        // var_dump(isset($data['error']['code']) && ($data['error']['code'] == 'invalid_from_currency' || $data['error']['code'] == 'invalid_to_currency'));
+        /* var_dump(isset($data['error']['code']) && ($data['error']['code'] == "invalid_from_currency" || $data['error']['code'] == "invalid_to_currency"));
+        die(); */
+
         // Throwing an error, if the API does not return a valid response
         if (!isset($data['success'])) {
+            /* This condition accounts for different format of response from the second API, this part needs to be improved after a proper 
+            analysis of documentation of APIs that will be used */
+            if (isset($data['error']['code']) && ($data['error']['code'] == "invalid_from_currency" || $data['error']['code'] == "invalid_to_currency")) {
+                return $data;
+            }
             throw new ApiException("The API is not responding. It might be caused by an error on the API provider's side, or you might have entered a wrong URL or API key.");
         }
 
